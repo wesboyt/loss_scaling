@@ -1,19 +1,14 @@
-import torch
-from transformers import AutoModelForCausalLM
-
-def scaled_loss(model, loss_function, batch, loss_modifier):
-    for i in batch.shape[1]:
-        logits = model(batch[:, :i]).logits[:, -1]
-        labels = batch[:, i]
-        loss = (loss_function(logits, labels) * loss_modifier[i]).mean()
-        loss.backward()
-
-path = './model'
-device = 'cuda'
-batches = torch.tensor([[[1,2,3], [4,5,6]], [[7,8,9], [10,11,12]]])
-loss_modifier = torch.tensor([[[0.05,0.1,0.5], [1.0,0.1,0.05]], [[0.05,0.1,0.5], [1.0,0.1,0.05]]])
-loss_function = torch.nn.CrossEntropyLoss(reduction='none')
-model = AutoModelForCausalLM.from_pretrained(path, torch_dtype=torch.bfloat16, attn_implementation="flash_attention_2").to(device)
-for batch in batches:
-    scaled_loss(model,loss_function,batch,loss_modifier)
-
+val = torch.tensor(batch['input_ids'], dtype=torch.long).to(device)
+logits = model(val).logits
+ttl_loss = torch.zeros(1,dtype=torch.float32).to(device)
+for i in full_range:
+    loss = loss_function(logits[:, i - 1], val[:, i])
+    if i > 26 or i < 6:
+        losses.append(loss.item())
+    else:
+        loss = loss * 0.1
+    ttl_loss += loss
+ttl_loss.backward()
+optimizer.step()
+optimizer.zero_grad()
+lr_scheduler.step()
