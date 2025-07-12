@@ -31,7 +31,7 @@ for batch_size in batch_sizes:
         logits = model(val).logits
         ttl_loss = torch.zeros(1, dtype=torch.float32).to(device)
         current = val[:, 0]
-         = val[:, 1]
+        _ = val[:, 1]
         last = False
         last_last = False
         current_ = -1
@@ -53,7 +53,7 @@ for batch_size in batch_sizes:
                     last_last_ = last_
                 if i > 27:
                     last_ = current_
-                current_ = torch.argwhere(current == ).squeeze(1)
+                current_ = torch.argwhere(current == _).squeeze(1)
                 modifier = torch.full([batch_size], 1).to(device)
                 if i > 27 and last_.shape[0]:
                     x = torch.argwhere(current[last_] == x_token).squeeze(1)
