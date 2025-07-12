@@ -46,12 +46,9 @@ for batch_size in batch_sizes:
             mod = 1 + i / 64
             if i < 6:
                 pass
-                #losses.append(loss.item())
-                #loss = loss * .7
+
             elif i > 26:
-                #cases
-                #current is a allin, raise, call or fold and last index was hero
-                #current is a bet size]
+
                 if i > 28:
                     last_last_ = last_
                 if i > 27:
