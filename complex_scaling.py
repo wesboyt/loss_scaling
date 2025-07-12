@@ -56,13 +56,13 @@ for batch_size in batch_sizes:
                 current_ = torch.argwhere(current == ).squeeze(1)
                 modifier = torch.full([batch_size], 1).to(device)
                 if i > 27 and last_.shape[0]:
-                    x = torch.argwhere(current[last_] == fold_token).squeeze(1)
+                    x = torch.argwhere(current[last_] == x_token).squeeze(1)
                     if x.shape[0]:
                         modifier[last_[x]] += 2
-                    xx = torch.argwhere(current[last_] == call_token).squeeze(1)
+                    xx = torch.argwhere(current[last_] == xx_token).squeeze(1)
                     if xx.shape[0]:
                         modifier[last_[xx]] += 2
-                    xxx = torch.argwhere(current[last_] == raise_token).squeeze(1)
+                    xxx = torch.argwhere(current[last_] == xxx_token).squeeze(1)
                     if xxx.shape[0]:
                         modifier[last_[xxx]] += 2
                 if i > 28 and last_last_.shape[0]:
